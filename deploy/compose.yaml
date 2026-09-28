@@ -1,0 +1,44 @@
+name: cheese-pilgrim
+
+services:
+  web:
+    image: cheese-pilgrim:${IMAGE_TAG:?Set IMAGE_TAG to a built release}
+    pull_policy: never
+    container_name: cheese-pilgrim-web
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 128m
+    cpus: 0.5
+    pids_limit: 64
+    stop_grace_period: 10s
+    networks: [coolify]
+    logging:
+      driver: json-file
+      options:
+        max-size: 5m
+        max-file: '2'
+    labels:
+      traefik.enable: 'true'
+      traefik.docker.network: coolify
+      traefik.http.services.cheese-pilgrim.loadbalancer.server.port: '8080'
+      traefik.http.routers.cheese-pilgrim.rule: Host(`cheesepilgrim.joewaine.com`)
+      traefik.http.routers.cheese-pilgrim.entrypoints: https
+      traefik.http.routers.cheese-pilgrim.service: cheese-pilgrim
+      traefik.http.routers.cheese-pilgrim.tls: 'true'
+      traefik.http.routers.cheese-pilgrim.tls.certresolver: letsencrypt
+      traefik.http.routers.cheese-pilgrim.middlewares: cheese-pilgrim-compress
+      traefik.http.routers.cheese-pilgrim-http.rule: Host(`cheesepilgrim.joewaine.com`)
+      traefik.http.routers.cheese-pilgrim-http.entrypoints: http
+      traefik.http.routers.cheese-pilgrim-http.service: cheese-pilgrim
+      traefik.http.routers.cheese-pilgrim-http.middlewares: cheese-pilgrim-https
+      traefik.http.middlewares.cheese-pilgrim-https.redirectscheme.scheme: https
+      traefik.http.middlewares.cheese-pilgrim-https.redirectscheme.permanent: 'true'
+      traefik.http.middlewares.cheese-pilgrim-compress.compress: 'true'
+
+networks:
+  coolify:
+    external: true

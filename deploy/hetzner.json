@@ -1,0 +1,25 @@
+{
+  "provider": "Hetzner",
+  "server": "178.105.125.95",
+  "domain": "cheesepilgrim.joewaine.com",
+  "url": "https://cheesepilgrim.joewaine.com/",
+  "image": "cheese-pilgrim:20260925-193705",
+  "tag": "20260925-193705",
+  "release": "/opt/cheese-pilgrim/releases/20260925-193705",
+  "nginx_base": "nginxinc/nginx-unprivileged@sha256:4714e0b1b2577eaa1a6131d07c958b67f0eb68e6d0521e90c6e5287db8cf0bc5",
+  "dns_record_id": "fc7cf0aa9534852644ac55751289af9a",
+  "deployed_at": "2026-09-25T19:37:43.983095+00:00",
+  "container": "cheese-pilgrim-web",
+  "verified_at": "2026-09-25T19:38:02.532465+00:00",
+  "verification": {
+    "public_https": 200,
+    "http_redirect": 308,
+    "browser_checks": 14,
+    "browser_exit_code": 0,
+    "unchanged_existing_containers": 23,
+    "container_health": "healthy",
+    "container_user": "101",
+    "memory_limit_bytes": 134217728,
+    "read_only": true
+  }
+}
